@@ -1,0 +1,19 @@
+name: django-testing
+
+on: [push]
+
+jobs:
+  run-all-pytests:
+    runs-on: windows
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.12.3
+      - run: python -m pip install --upgrade pip
+      - run: pip install Django
+      - run: pip install djangorestframework
+      - run: pip install django-cors-headers
+      - run: pip install django-pytest
+      - run: cd backend
+      - run: pytest
