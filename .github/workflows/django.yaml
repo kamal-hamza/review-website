@@ -1,6 +1,9 @@
 name: django-testing
 
-on: [push]
+on:
+  push:
+    branches:
+      - '**'
 
 jobs:
   run-all-pytests:
