@@ -11,6 +11,6 @@ jobs:
         with:
           node-version: 20
       - run: |
-        cd frontend
+        ls
         npm install
         npm test
