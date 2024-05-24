@@ -1,0 +1,16 @@
+name: react-testing
+
+on: [push]
+
+jobs:
+  run-all-react-tests:
+  runs-on: windows-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - run: |
+      cd frontend
+      npm install
+      npm test
