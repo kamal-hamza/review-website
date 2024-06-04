@@ -1,0 +1,33 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+
+# Coverage
+*.coverage
+
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Compiled Python files
+*.pyc
+*.pyo

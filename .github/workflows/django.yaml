@@ -15,10 +15,6 @@ jobs:
           python-version: 3.12.3
       - run: python -m pip install --upgrade pip
       - run: |
-          pip install Django
-          pip install djangorestframework
-          pip install django-cors-headers
-          pip install pytest-django
-      - run: |
           cd backend
+          pip install -r requirements.txt
           pytest
