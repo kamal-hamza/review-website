@@ -11,7 +11,7 @@ function Login() {
         password: ""
     });
 
-    async function submitForm(event) {
+    async function submitForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
             const response = await axios.post('127.0.0.1:8000/login', {
