@@ -1,0 +1,25 @@
+.title {
+    align-items: center;
+}
+
+#submitDiv {
+    padding-top: 15px;
+}
+
+#button {
+    width: 100%;
+    background-color: black;
+    border-color: black;
+}
+
+#form {
+    width: 500px;
+    padding: 10px;
+}
+
+.loginParent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
+import './Login.css';
 
 function Login() {
 
@@ -25,15 +25,20 @@ function Login() {
     }
 
     return (
-        <div>
-            <Form onSubmit={submitForm}>
+        <div className='loginParent'>
+            <div id='title'>
+                <h1>Login</h1>
+            </div>
+            <Form onSubmit={submitForm} id='form'>
                 <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
-                    <Form.Control type="email" placeholder="name@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                    <Form.Control type="email" className='input' placeholder="name@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                 </FloatingLabel>
                 <FloatingLabel controlId="floatingPassword" label="Password">
-                    <Form.Control type="password" placeholder="Password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+                    <Form.Control type="password" className='input' placeholder="Password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
                 </FloatingLabel>
-                <Button type='submit' id='button'>Login</Button>
+                <div id='submitDiv'>
+                    <Button type='submit' className='input' id='button'>Login</Button>
+                </div>
             </Form>
         </div>
     );
