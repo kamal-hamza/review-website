@@ -14,10 +14,13 @@ function Login() {
     async function submitForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
-            const response = await axios.post('127.0.0.1:8000/login', {
+            const url = 'http://127.0.0.1:8000/login/'
+            const response = await axios.post(url, {
                 email: formData.email,
                 password: formData.password
             });
+            console.log(response.data.token)
+            localStorage.setItem('authToken', response.data.token)
             console.log(response);
         } catch (error) {
             console.log(error);
