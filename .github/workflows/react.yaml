@@ -15,5 +15,6 @@ jobs:
           node-version: 20
       - run: |
           cd frontend
-          npm install
-          npm test
+          npm install -g yarn
+          yarn install
+          yarn test

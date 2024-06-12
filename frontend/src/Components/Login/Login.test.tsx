@@ -34,7 +34,7 @@ test('Login form calls axios request', async () => {
     fireEvent.submit(screen.getByRole('button', { name: /login/i }));
 
     // check to see if axios sent a post request to the backend
-    expect(axios.post).toHaveBeenCalledWith('127.0.0.1:8000/login', {
+    expect(axios.post).toHaveBeenCalledWith('http://127.0.0.1:8000/login/', {
         email: 'test@example.com',
         password: 'password123'
     });
@@ -51,7 +51,7 @@ test('Test invalid form credentials', async () => {
     fireEvent.submit(screen.getByRole('button', { name: /login/i }));
 
     // check to see if post request was not sent to the backend
-    expect(axios.post).not.toHaveBeenCalledWith('127.0.0.1:8000/login', {
+    expect(axios.post).not.toHaveBeenCalledWith('http://127.0.0.1:8000/login/', {
         email: 'test@example.com',
         password: 'password123'
     });
