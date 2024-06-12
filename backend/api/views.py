@@ -1,30 +1,29 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login
 from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+from rest_framework import status
+
 from .forms import loginForm
+from .serializers import loginAuthSerializer
 
 User = get_user_model()
 
-# Create your views here.
+@api_view(['POST'])
 def loginAuth(request):
     if request.method == 'POST':
-        form = loginForm(data=request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, email=email, password=password)
-            if user:
-                userData = {
-                    'id': str(user.id),
-                    'email': user.email,
-                    'username': user.username
-                }
+        serializer = loginAuthSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                user = User.objects.get(email=serializer.validated_data['email'])
+                token, created = Token.objects.get_or_create(user=user)
                 login(request, user)
-                return JsonResponse(userData, status=200)
-            else:
-                return JsonResponse({'error': 'Invalid Credentials'}, status=401)
+                return Response({'token': token.key}, status=status.HTTP_200_OK)
+            except User.DoesNotExist:
+                return Response({'error': 'User does not exist'}, status=status.HTTP_404_NOT_FOUND)
         else:
-            return JsonResponse({'error': 'Invalid form data'}, status=400)
-    else:
-       return JsonResponse({'error': 'Invalid request method'}, status=405) 
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'error': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
