@@ -2,22 +2,22 @@
     align-items: center;
 }
 
-#submitDiv {
+#formButtonDiv {
     padding-top: 15px;
 }
 
-#button {
+#formButton {
     width: 100%;
     background-color: black;
     border-color: black;
 }
 
 #form {
-    width: 500px;
+    width: 35%;
     padding: 10px;
 }
 
-.loginParent {
+.loginDiv {
     display: flex;
     flex-direction: column;
     justify-content: center;

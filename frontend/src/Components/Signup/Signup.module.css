@@ -1,0 +1,25 @@
+.title {
+    align-items: center;
+}
+
+#formButtonDiv {
+    padding-top: 15px;
+}
+
+#formButton {
+    width: 100%;
+    background-color: black;
+    border-color: black;
+}
+
+#form {
+    width: 35%;
+    padding: 10px;
+}
+
+.signupDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
