@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import loginSerializer, signupSerializer
 from django.contrib.auth import get_user_model, authenticate
+from django.db import IntegrityError
 
 User = get_user_model()
 
@@ -49,4 +50,8 @@ class signup(APIView):
                 print(e)
                 return Response({'error': 'An error occured during signup'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'Invalid Credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+            errors = serializer.errors
+            if 'email' in errors:
+                return Response({'error': errors['email'][0]}, status=status.HTTP_409_CONFLICT)
+            else:
+                return Response(errors, status=status.HTTP_400_BAD_REQUEST)
