@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import styles from './Login.module.css'
+import styles from './Signup.module.css';
 
-function Login() {
+function Signup() {
 
     const [formData, setFormData] = useState({
         email: "",
+        username: "",
         password: ""
     });
 
@@ -20,36 +21,43 @@ function Login() {
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
-            const url = 'http://127.0.0.1:8000/login/'
+            console.log(formData.email);
+            console.log(formData.username);
+            console.log(formData.password);
+            const url = 'http://127.0.0.1:8000/signup/'
             const response = await axios.post(url, {
                 email: formData.email,
+                username: formData.username,
                 password: formData.password
             });
             if (response.status === 200) {
-                localStorage.setItem('authToken', response.data.token)
-                setAlert({
-                    show: true,
-                    message: "Login Successful",
-                    variant: "danger"
-                });
+                const tokenKey: String = response.data.token
+                if (tokenKey != null) {
+                    localStorage.setItem('authToken', response.data.token)
+                    setAlert({
+                        show: true,
+                        message: "Signup Successful!",
+                        variant: "success"
+                    });
+                }
             }
             else {
                 console.log(response.status)
             }
         } catch (error: any) {
-            if (error instanceof AxiosError) {
-                if (error.response?.status === 401) {
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 409) {
                     setAlert({
                         show: true,
-                        message: "Invalid Credentials",
-                        variant: "danger"
+                        message: "A user already exists with this email!",
+                        variant: "warning"
                     });
                 }
                 else if (error.response?.status === 400) {
                     setAlert({
                         show: true,
-                        message: "Bad Request. Please submit form again",
-                        variant: "info"
+                        message: "Bad request. Please check the submitted data.",
+                        variant: "danger"
                     });
                 }
             }
@@ -60,10 +68,9 @@ function Login() {
     }
 
     return (
-        <div className={styles.loginDiv}>
-            
+        <div id={styles.signupDiv}>
             <div id={styles.titleDiv}>
-                <h1 id={styles.title}>Login</h1>
+                <h1 id={styles.title}>Signup</h1>
             </div>
             <div className={styles.alertDiv}>
                 {
@@ -87,16 +94,18 @@ function Login() {
                         <input type='email' placeholder='Email Address' className={styles.input} name='email' id='email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}></input>
                     </div>
                     <div className={styles.formItem}>
+                        <input type='text' placeholder='Username' className={styles.input} name='username' id='username' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })}></input>
+                    </div>
+                    <div className={styles.formItem}>
                         <input type='password' placeholder='Password' className={styles.input} name='password' id='password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}></input>
                     </div>
                     <div className={styles.formItem}>
-                        <button className={styles.button} type='submit' name='submit' id='submit'>Login</button>
+                        <button className={styles.button} type='submit' name='submit' id='submit'>Sign Up</button>
                     </div>
                 </form>
             </div>
         </div>
     );
+};
 
-}
-
-export default Login;
+export default Signup;
