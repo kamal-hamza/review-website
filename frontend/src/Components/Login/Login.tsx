@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Form, FloatingLabel } from 'react-bootstrap';
-import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
 import styles from './Login.module.css'
 
@@ -32,7 +30,7 @@ function Login() {
                 setAlert({
                     show: true,
                     message: "Login Successful",
-                    variant: "success"
+                    variant: "danger"
                 });
             }
             else {
@@ -63,23 +61,38 @@ function Login() {
 
     return (
         <div className={styles.loginDiv}>
-            <div id={styles.title}>
-                <h1>Login</h1>
-                { alert.show && <Alert variant={alert.variant} onClose={() => setAlert({ show: false, message:"", variant:""})} dismissible>{alert.message}</Alert>}
+            
+            <div id={styles.titleDiv}>
+                <h1 id={styles.title}>Login</h1>
             </div>
-            <Form onSubmit={handleSubmit} id={styles.form}>
-                <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
-                    <Form.Control type="email" className='input' placeholder="name@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                </FloatingLabel>
-                <FloatingLabel controlId="floatingPassword" label="Password">
-                    <Form.Control type="password" className='input' placeholder="Password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
-                </FloatingLabel>
-                <div id={styles.formButtonDiv}>
-                    <Button type='submit' className='input' id={styles.formButton}>Login</Button>
-                </div>
-            </Form>
-            <div>
-                <p>Don't have an account? <Link to={'/signup'}>Signup</Link></p>
+            <div className={styles.alertDiv}>
+                {
+                        alert.show
+                        &&
+                        (
+                            <div id={alert.variant} className={styles.alert}>
+                                <div className={styles.alertText}>
+                                    <span>{alert.message}</span>
+                                </div>
+                                <div className={styles.closeBtn}>
+                                    <span  onClick={() => setAlert({ ...alert, show: false })}>&times;</span>
+                                </div>
+                            </div>
+                        )
+                }
+            </div>
+            <div id={styles.formDiv}>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.formItem}>
+                        <input type='email' placeholder='Email Address' className={styles.input} name='email' id='email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}></input>
+                    </div>
+                    <div className={styles.formItem}>
+                        <input type='password' placeholder='Password' className={styles.input} name='password' id='password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}></input>
+                    </div>
+                    <div className={styles.formItem}>
+                        <button className={styles.button} type='submit' name='submit' id='submit'>Login</button>
+                    </div>
+                </form>
             </div>
         </div>
     );

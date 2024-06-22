@@ -72,5 +72,5 @@ class TestSignup:
             'password': 'test'
         }
         response = api_client.post(url, data)
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        assert response.status_code == status.HTTP_409_CONFLICT
         assert 'error' in response.data

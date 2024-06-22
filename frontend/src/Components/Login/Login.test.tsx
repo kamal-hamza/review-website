@@ -1,8 +1,9 @@
 import { act } from 'react';
-import userEvent from '@testing-library/user-event'
-import { render, screen, fireEvent } from '@testing-library/react'
-import axios from 'axios'
-import Login from './Login'
+import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent } from '@testing-library/react';
+import axios from 'axios';
+import Login from './Login';
 
 jest.mock('axios', () => ({
     post: jest.fn(),
@@ -10,7 +11,11 @@ jest.mock('axios', () => ({
 
 function renderLogin() {
     act(() => {
-        render(<Login />);
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        )
     });
 }
 
@@ -24,35 +29,52 @@ test('Login renders correctly', () => {
     });
 });
 
-test('Login form calls axios request', async () => {
+test('submitting form calls handleSubmit function', async () => {
     (axios.post as jest.Mock).mockResolvedValue({ data: 'some data' });
     renderLogin();
 
-    // simulate submission of form
-    await userEvent.type(screen.getByLabelText(/email address/i), 'test@example.com');
-    await userEvent.type(screen.getByLabelText(/Password/i), 'password123');
-    fireEvent.submit(screen.getByRole('button', { name: /login/i }));
+    // get the correct elements
+    const email = screen.getByPlaceholderText(/email address/i);
+    const password = screen.getByPlaceholderText(/password/i);
+    const button = screen.getByRole('button', {name: 'Sign Up'});
 
-    // check to see if axios sent a post request to the backend
+    // clear value fields
+    await userEvent.clear(email);
+    await userEvent.clear(password);
+
+    // type correct info
+    await userEvent.type(email, 'test@example.com');
+    await userEvent.type(password, 'testpassword');
+    fireEvent.click(button);
+    
+    // expect axios request
     expect(axios.post).toHaveBeenCalledWith('http://127.0.0.1:8000/login/', {
         email: 'test@example.com',
-        password: 'password123'
+        password: 'testpassword'
     });
 });
 
-// test form with invalid data and error handling
-test('Test invalid form credentials', async () => {
+test('submitting wrong form does not call handleSubmit function', async () => {
     (axios.post as jest.Mock).mockResolvedValue({ data: 'some data' });
     renderLogin();
 
-    // simulate submission of form
-    await userEvent.type(screen.getByLabelText(/email address/i), 'testexample.com');
-    await userEvent.type(screen.getByLabelText(/Password/i), 'password123');
-    fireEvent.submit(screen.getByRole('button', { name: /login/i }));
+    // get the correct elements
+    const email = screen.getByPlaceholderText(/email address/i);
+    const password = screen.getByPlaceholderText(/password/i);
+    const button = screen.getByRole('button', {name: 'Sign Up'});
 
-    // check to see if post request was not sent to the backend
+    // clear value fields
+    await userEvent.clear(email);
+    await userEvent.clear(password);
+
+    // type correct info
+    await userEvent.type(email, 'testexample.com');
+    await userEvent.type(password, 'testpassword');
+    fireEvent.click(button);
+    
+    // expect axios request
     expect(axios.post).not.toHaveBeenCalledWith('http://127.0.0.1:8000/login/', {
         email: 'test@example.com',
-        password: 'password123'
+        password: 'testpassword'
     });
-})
+});

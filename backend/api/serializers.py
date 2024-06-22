@@ -34,3 +34,9 @@ class signupSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=data).exists():
             raise serializers.ValidationError("A user with this email already exists")
         return data
+
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user

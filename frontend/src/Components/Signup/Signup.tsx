@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Form, FloatingLabel } from 'react-bootstrap';
-import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
 import styles from './Signup.module.css';
 
@@ -23,6 +21,9 @@ function Signup() {
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
+            console.log(formData.email);
+            console.log(formData.username);
+            console.log(formData.password);
             const url = 'http://127.0.0.1:8000/signup/'
             const response = await axios.post(url, {
                 email: formData.email,
@@ -44,7 +45,7 @@ function Signup() {
                 console.log(response.status)
             }
         } catch (error: any) {
-            if (error instanceof AxiosError) {
+            if (axios.isAxiosError(error)) {
                 if (error.response?.status === 409) {
                     setAlert({
                         show: true,
@@ -67,30 +68,41 @@ function Signup() {
     }
 
     return (
-        <div className={styles.signupDiv}>
-            <div id={styles.title}>
-                <h1>Signup</h1>
-                { alert.show && <Alert variant={alert.variant} onClose={() => setAlert({ show: false, message:"", variant:""})} dismissible>{alert.message}</Alert> }
+        <div id={styles.signupDiv}>
+            <div id={styles.titleDiv}>
+                <h1 id={styles.title}>Signup</h1>
             </div>
-            <div className="alertDiv">
-
+            <div className={styles.alertDiv}>
+                {
+                        alert.show
+                        &&
+                        (
+                            <div id={alert.variant} className={styles.alert}>
+                                <div className={styles.alertText}>
+                                    <span>{alert.message}</span>
+                                </div>
+                                <div className={styles.closeBtn}>
+                                    <span  onClick={() => setAlert({ ...alert, show: false })}>&times;</span>
+                                </div>
+                            </div>
+                        )
+                }
             </div>
-            <Form onSubmit={handleSubmit} id={styles.form}>
-                <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
-                    <Form.Control type="email" className='input' placeholder="name@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                </FloatingLabel>
-                <FloatingLabel controlId="floatingInput" label="Username" className="mb-3">
-                    <Form.Control type="text" className='input' placeholder="username" value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
-                </FloatingLabel>
-                <FloatingLabel controlId="floatingPassword" label="Password">
-                    <Form.Control type="password" className='input' placeholder="Password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
-                </FloatingLabel>
-                <div id={styles.formButtonDiv}>
-                    <Button type='submit' className='input' id={styles.formButton}>Sign Up</Button>
-                </div>
-            </Form>
-            <div>
-                <p>Already have an account? <Link to={'/login'}>Login</Link></p>
+            <div id={styles.formDiv}>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.formItem}>
+                        <input type='email' placeholder='Email Address' className={styles.input} name='email' id='email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}></input>
+                    </div>
+                    <div className={styles.formItem}>
+                        <input type='text' placeholder='Username' className={styles.input} name='username' id='username' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })}></input>
+                    </div>
+                    <div className={styles.formItem}>
+                        <input type='password' placeholder='Password' className={styles.input} name='password' id='password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}></input>
+                    </div>
+                    <div className={styles.formItem}>
+                        <button className={styles.button} type='submit' name='submit' id='submit'>Sign Up</button>
+                    </div>
+                </form>
             </div>
         </div>
     );
