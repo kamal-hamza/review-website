@@ -6,6 +6,6 @@ test('Renders App component correctly', () => {
   act(() => {
     render(<App />);
   })
-  const app = screen.getByText(/home/i);
+  const app = screen.getByTitle('app');
   expect(app).toBeInTheDocument();
 });
