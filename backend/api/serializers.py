@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import product, review
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext_lazy as _
@@ -40,3 +41,13 @@ class signupSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+    
+class productSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = product
+        fields = '__all__'
+
+class reviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = review
+        fields = '__all__'

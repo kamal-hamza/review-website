@@ -55,7 +55,10 @@ class customUser(AbstractBaseUser, PermissionsMixin):
 # product database
 class product(models.Model):
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='products/')
+    description = models.TextField(default="No Description")
+
+    def __str__(self):
+        return self.title
 
 # review database
 class review(models.Model):
