@@ -2,6 +2,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import APIView
+from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import loginSerializer, signupSerializer, productSerializer, reviewSerializer
@@ -58,7 +60,7 @@ class signup(APIView):
             else:
                 return Response(errors, status=status.HTTP_400_BAD_REQUEST)
             
-class addProduct(APIView):
+class createProduct(APIView):
 
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -90,3 +92,10 @@ class addProduct(APIView):
         else:
             errors = serializer.errors
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+class search(ListAPIView):
+
+    queryset = product.objects.all()
+    serializer_class = productSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
