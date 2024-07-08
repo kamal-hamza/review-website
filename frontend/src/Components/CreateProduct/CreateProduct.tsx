@@ -5,11 +5,11 @@ import axios from 'axios';
 
 function CreateProduct() {
 
-    interface Product {
-        id: number,
-        title: string,
-        description: string
-    }
+    // interface Product {
+    //     id: number,
+    //     title: string,
+    //     description: string
+    // }
 
     const [formData, setFormData] = useState({
         title: "",
@@ -20,8 +20,8 @@ function CreateProduct() {
         message: "",
         variant: ""
     });
-    const [results, setResults] = useState<Product[]>([]);
-    const [showDropDown, setShowDropDown] = useState<boolean>(false);
+    // const [results, setResults] = useState<Product[]>([]);
+    // const [showDropDown, setShowDropDown] = useState<boolean>(false);
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -74,37 +74,37 @@ function CreateProduct() {
         }
     }
 
-    async function fetchResults(query: string) {
-        try {
-            const response = await axios.get(`http://127.0.0.1:8000//search/?search=${query}`);
-            setResults(response.data);
-        } catch (error) {
-            setAlert({
-                show: true,
-                message: "An error occured while fetching results",
-                variant: "info"
-            });
-        }
-    }
+    // async function fetchResults(query: string) {
+    //     try {
+    //         const response = await axios.get(`http://127.0.0.1:8000//search/?search=${query}`);
+    //         setResults(response.data);
+    //     } catch (error) {
+    //         setAlert({
+    //             show: true,
+    //             message: "An error occured while fetching results",
+    //             variant: "info"
+    //         });
+    //     }
+    // }
 
-    useEffect(() => {
-        if (formData.title !== "") {
-            fetchResults(formData.title);
-        }
-        else {
-            setShowDropDown(false);
-        }
-    }, [formData.title]);
+    // useEffect(() => {
+    //     if (formData.title !== "") {
+    //         fetchResults(formData.title);
+    //     }
+    //     else {
+    //         setShowDropDown(false);
+    //     }
+    // }, [formData.title]);
 
 
-    useEffect(() => {
-        if (results.length > 0) {
-            setShowDropDown(true);
-        }
-        else {
-            setShowDropDown(false);
-        }
-    }, [results]);
+    // useEffect(() => {
+    //     if (results.length > 0) {
+    //         setShowDropDown(true);
+    //     }
+    //     else {
+    //         setShowDropDown(false);
+    //     }
+    // }, [results]);
 
     return (
         <div className={styles.createProductDiv}>

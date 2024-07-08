@@ -92,17 +92,17 @@ class createProduct(APIView):
             errors = serializer.errors
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-class search(ListAPIView):
+# class search(ListAPIView):
 
-    queryset = product.objects.all()
-    serializer_class = productSerializer
-    filter_backends = [SearchFilter]
-    search_fields = ['title']
+#     queryset = product.objects.all()
+#     serializer_class = productSerializer
+#     filter_backends = [SearchFilter]
+#     search_fields = ['title']
 
-class getProduct(APIView):
+# class getProduct(APIView):
 
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get(self, request, id):
-        print(id)
+#     def get(self, request, id):
+#         print(id)
