@@ -71,7 +71,6 @@ class createProduct(APIView):
         return Response(serializer.data)
     
     def post(self, request):
-        print("in func")
         serializer = productSerializer(data=request.data)
         if serializer.is_valid():
             try:
@@ -99,3 +98,11 @@ class search(ListAPIView):
     serializer_class = productSerializer
     filter_backends = [SearchFilter]
     search_fields = ['title']
+
+class getProduct(APIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request, id):
+        print(id)

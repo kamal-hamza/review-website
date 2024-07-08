@@ -28,13 +28,13 @@ function CreateProduct() {
         try {
             const url = "http://127.0.0.1:8000/create-product/";
             const token = localStorage.getItem('authToken');
+            const headers = {
+                'Authorization': "Token " + token,
+            }
             const response = await axios.post(url, {
-                headers: {
-                    Authorization: "Token " + token,
-                },
                 title: formData.title,
                 description: formData.description
-            })
+            }, { headers: headers })
         } catch (error) {
             if (error instanceof axios.AxiosError) {
                 if (error.response?.status === 400) {
@@ -132,7 +132,7 @@ function CreateProduct() {
                     <div className={styles.formItem}>
                         <input type='text' placeholder='Title' className={styles.input} name='title' id='title' value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}></input>
                     </div>
-                    {
+                    {/* {
                         showDropDown
                         &&
                         (
@@ -144,7 +144,7 @@ function CreateProduct() {
                                 </ul>
                             </div>
                         )
-                    }
+                    } */}
                     <div className={styles.formItem}>
                         <input type='text' placeholder='Description' className={styles.input} name='description' id='description' value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}></input>
                     </div>
