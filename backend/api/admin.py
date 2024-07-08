@@ -3,3 +3,5 @@ from . import models
 
 # Register your models here.
 admin.site.register(models.customUser)
+admin.site.register(models.product)
+admin.site.register(models.review)

@@ -67,7 +67,7 @@ test('submitting wrong form does not call handleSubmit function', async () => {
     await userEvent.clear(email);
     await userEvent.clear(password);
 
-    // type correct info
+    // type incorrect info
     await userEvent.type(email, 'testexample.com');
     await userEvent.type(password, 'testpassword');
     fireEvent.click(button);

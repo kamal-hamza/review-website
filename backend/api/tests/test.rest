@@ -14,3 +14,23 @@ Content-Type: application/json
 
 GET http://127.0.0.1:8000/signup/
 Content-Type: application/json
+
+####
+
+POST http://127.0.0.1:8000/create-product/
+Content-Type: application/json
+Authorization: Token 44b38190ce8a477c15e5e7343c6c7f8e80cc1c3b
+
+{ "title": "sample product", "description": "Sample Description" }
+
+####
+
+POST http://127.0.0.1:8000/create-product/
+Content-Type: application/json    
+Authorization: Token 44b38190ce8a477c15e5e7343c6c7f8e80cc1c3b
+
+{ "title": "sample product" }
+
+####
+
+GET http://127.0.0.1:8000//search/?search=

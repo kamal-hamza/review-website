@@ -65,22 +65,22 @@ function Login() {
             <div id={styles.titleDiv}>
                 <h1 id={styles.title}>Login</h1>
             </div>
-            <div className={styles.alertDiv}>
-                {
-                        alert.show
-                        &&
-                        (
-                            <div id={alert.variant} className={styles.alert}>
+            {
+                alert.show
+                &&
+                (
+                    <div className={styles.alertDiv}>
+                        <div id={alert.variant} className={styles.alert}>
                                 <div className={styles.alertText}>
                                     <span>{alert.message}</span>
                                 </div>
                                 <div className={styles.closeBtn}>
                                     <span  onClick={() => setAlert({ ...alert, show: false })}>&times;</span>
                                 </div>
-                            </div>
-                        )
-                }
-            </div>
+                        </div> 
+                    </div>
+                )
+            }
             <div id={styles.formDiv}>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formItem}>
