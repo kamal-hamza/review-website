@@ -19,6 +19,7 @@ afterEach(() => {
 });
 
 jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 test('component renders correctly', () => {
     renderCreateProduct();

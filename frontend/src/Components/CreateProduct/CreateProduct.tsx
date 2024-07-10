@@ -1,15 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './CreateProduct.module.css'
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function CreateProduct() {
-
-    // interface Product {
-    //     id: number,
-    //     title: string,
-    //     description: string
-    // }
 
     const [formData, setFormData] = useState({
         title: "",
@@ -20,8 +13,6 @@ function CreateProduct() {
         message: "",
         variant: ""
     });
-    // const [results, setResults] = useState<Product[]>([]);
-    // const [showDropDown, setShowDropDown] = useState<boolean>(false);
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -35,10 +26,17 @@ function CreateProduct() {
                 title: formData.title,
                 description: formData.description
             }, { headers: headers })
+            if (response.status === 201) {
+                setAlert({
+                    show: true,
+                    message: "Product created successfully",
+                    variant: "success"
+                });
+            }
         } catch (error) {
             if (error instanceof axios.AxiosError) {
                 if (error.response?.status === 400) {
-                    if ("no token" in error.response) {
+                    if ("No token" in error.response) {
                         setAlert({
                             show: true,
                             message: "No token was provided",
@@ -74,38 +72,6 @@ function CreateProduct() {
         }
     }
 
-    // async function fetchResults(query: string) {
-    //     try {
-    //         const response = await axios.get(`http://127.0.0.1:8000//search/?search=${query}`);
-    //         setResults(response.data);
-    //     } catch (error) {
-    //         setAlert({
-    //             show: true,
-    //             message: "An error occured while fetching results",
-    //             variant: "info"
-    //         });
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     if (formData.title !== "") {
-    //         fetchResults(formData.title);
-    //     }
-    //     else {
-    //         setShowDropDown(false);
-    //     }
-    // }, [formData.title]);
-
-
-    // useEffect(() => {
-    //     if (results.length > 0) {
-    //         setShowDropDown(true);
-    //     }
-    //     else {
-    //         setShowDropDown(false);
-    //     }
-    // }, [results]);
-
     return (
         <div className={styles.createProductDiv}>
             <div id={styles.titleDiv}>
@@ -132,19 +98,6 @@ function CreateProduct() {
                     <div className={styles.formItem}>
                         <input type='text' placeholder='Title' className={styles.input} name='title' id='title' value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}></input>
                     </div>
-                    {/* {
-                        showDropDown
-                        &&
-                        (
-                            <div className={styles.formItem} id={styles.resultBox}>
-                                <ul className={styles.input}>
-                                    {results.map(result => (
-                                        <li key={result.id} className={styles.items}><Link id={styles.link} to={`/products/${result.id}`}>{result.title}</Link></li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )
-                    } */}
                     <div className={styles.formItem}>
                         <input type='text' placeholder='Description' className={styles.input} name='description' id='description' value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}></input>
                     </div>
