@@ -3,6 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.contrib.auth import get_user_model
+from api.models import product
 from rest_framework.authtoken.models import Token
 
 User = get_user_model()
@@ -128,3 +129,24 @@ class TestCreateProduct:
         headers = { 'Authorization': f'Token InvalidToken' }
         response = api_client.post(url, data, headers=headers)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+class TestSearch:
+
+    @pytest.mark.django_db
+    def test_search_with_no_results(self, api_client):
+        url = reverse('search')
+        url += "?search=dygqsjndbjqasdasd"
+        response = api_client.get(url)
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert response.data is None
+
+    @pytest.mark.django_db
+    def test_search_with_results(self, api_client):
+        product.objects.create(title="test product", description="test description")
+        url = reverse('search')
+        print(url)
+        url += "?search=test"
+        print(url)
+        response = api_client.get(url)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data is not None

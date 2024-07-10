@@ -6,8 +6,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import loginSerializer, signupSerializer, productSerializer, reviewSerializer
-from .models import product, review
+from .serializers import loginSerializer, signupSerializer, productSerializer
+from .models import product
 from django.contrib.auth import get_user_model, authenticate
 
 User = get_user_model()
@@ -92,12 +92,25 @@ class createProduct(APIView):
             errors = serializer.errors
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class search(ListAPIView):
+class search(ListAPIView):
 
-#     queryset = product.objects.all()
-#     serializer_class = productSerializer
-#     filter_backends = [SearchFilter]
-#     search_fields = ['title']
+    queryset = product.objects.all()
+    serializer_class = productSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        if not queryset.exists():
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 # class getProduct(APIView):
 
