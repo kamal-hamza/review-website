@@ -21,9 +21,6 @@ function Signup() {
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
-            console.log(formData.email);
-            console.log(formData.username);
-            console.log(formData.password);
             const url = 'http://127.0.0.1:8000/signup/'
             const response = await axios.post(url, {
                 email: formData.email,
@@ -32,8 +29,10 @@ function Signup() {
             });
             if (response.status === 200) {
                 const tokenKey: String = response.data.token
-                if (tokenKey != null) {
+                const userID: number = response.data.id
+                if (tokenKey != null && userID != null) {
                     localStorage.setItem('authToken', response.data.token)
+                    localStorage.setItem('userID', response.data.id)
                     setAlert({
                         show: true,
                         message: "Signup Successful!",

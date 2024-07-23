@@ -4,12 +4,13 @@ import Login from './Components/Login/Login'
 import Signup from './Components/Signup/Signup';
 import CreateProduct from './Components/CreateProduct/CreateProduct';
 import Search from './Components/Search/Search';
+import ProductView from './Components/ProductView/ProductView';
 
 function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/search",
       element: <Search />
     },
     {
@@ -24,6 +25,10 @@ function App() {
       path: "/create-product",
       element: <CreateProduct />
     },
+    {
+      path: "/products/:id",
+      element: <ProductView />
+    }
   ]);
 
   return (

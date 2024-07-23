@@ -150,3 +150,7 @@ class TestSearch:
         response = api_client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert response.data is not None
+
+class TestGetProduct:
+
+    pass

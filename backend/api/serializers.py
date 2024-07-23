@@ -48,6 +48,12 @@ class productSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class reviewSerializer(serializers.ModelSerializer):
+
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = review
         fields = '__all__'
+
+    def get_username(self, obj):
+        return obj.user.username

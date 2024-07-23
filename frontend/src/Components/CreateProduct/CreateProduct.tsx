@@ -17,7 +17,7 @@ function CreateProduct() {
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
-            const url = "http://127.0.0.1:8000/create-product/";
+            const url = "http://127.0.0.1:8000/products/";
             const token = localStorage.getItem('authToken');
             const headers = {
                 'Authorization': "Token " + token,

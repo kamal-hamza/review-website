@@ -27,6 +27,7 @@ function Login() {
             });
             if (response.status === 200) {
                 localStorage.setItem('authToken', response.data.token)
+                localStorage.setItem('userID', response.data.id)
                 setAlert({
                     show: true,
                     message: "Login Successful",
