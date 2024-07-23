@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Signup.module.css';
 
 function Signup() {
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: "",
@@ -38,6 +40,7 @@ function Signup() {
                         message: "Signup Successful!",
                         variant: "success"
                     });
+                    navigate("/search");
                 }
             }
             else {
@@ -102,6 +105,9 @@ function Signup() {
                         <button className={styles.button} type='submit' name='submit' id='submit'>Sign Up</button>
                     </div>
                 </form>
+            </div>
+            <div>
+                <p>Already have an account? <Link to="/login">Login</Link></p>
             </div>
         </div>
     );
