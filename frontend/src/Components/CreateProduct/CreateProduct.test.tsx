@@ -36,7 +36,7 @@ test('form submission is correct', async () => {
     fireEvent.click(screen.getByText(/create/i));
     await waitFor(() => {
         expect(axios.post).toHaveBeenCalledWith(
-            'http://127.0.0.1:8000/create-product/',
+            'http://127.0.0.1:8000/products/',
             { title: 'Test Title', description: 'Test Description' },
             { headers: { 'Authorization': 'Token testToken' } },
         );
