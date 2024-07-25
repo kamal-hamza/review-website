@@ -10,20 +10,6 @@
     margin: 10px;
 }
 
-.line {
-    width: 100%;
-    size: 5;
-    color: black;
-}
-
-.userReview {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding: 10px;
-    margin: 10px;
-}
-
 .formDiv {
     display: flex;
     flex-direction: column;
@@ -120,4 +106,63 @@
 
 .ratings span[data-clicked="true"] ~ span {
     color: orange;
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    background-color: lightgrey;
+    border-radius: 5px;
+}
+
+review > * {
+    padding: 2px;
+    margin: 2px;
+}
+
+.review_comment {
+    font-size: small;
+    font-style: italic;
+}
+
+.review_user {
+    font-size: medium;
+    font-weight: bold;
+}
+
+.review_rating {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.filled {
+    color: orange;
+}
+
+.filled ~ span {
+    color: orange;
+}
+
+.title {
+    font-size: large;
+}
+
+.description {
+    font-size: medium;
+}
+
+.popup-overlay {
+    background-color: black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.popup-content {
+    background-color: black;
+    border-radius: 5px;
+    padding: 10px;
 }

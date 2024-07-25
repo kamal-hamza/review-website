@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@testing-library/dom": "^10.1.0",
@@ -59,7 +60,6 @@
     "babel-jest": "^29.7.0",
     "eslint": "^9.5.0",
     "eslint-config-react-app": "^7.0.1",
-    "react-router-dom": "^6.23.1",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "react-router-dom": "^6.23.1"
   }
 }

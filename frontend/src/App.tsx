@@ -5,10 +5,15 @@ import Signup from './Components/Signup/Signup';
 import CreateProduct from './Components/CreateProduct/CreateProduct';
 import Search from './Components/Search/Search';
 import ProductView from './Components/ProductView/ProductView';
+import Home from './Components/Home/Home';
 
 function App() {
 
   const router = createBrowserRouter([
+    {
+      path: "",
+      element: <Home />
+    },
     {
       path: "/search",
       element: <Search />

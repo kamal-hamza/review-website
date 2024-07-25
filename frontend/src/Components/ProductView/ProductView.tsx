@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom';
-import styles from './ProductView.module.css';
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
-
+import styles from './ProductView.module.css'
 function ProductView() {
     const params = useParams();
     const ref = useRef<HTMLDivElement>(null);
@@ -106,6 +105,9 @@ function ProductView() {
                 'Authorization': "Token " + token,
             }
             const response = await axios.post(url, data, { headers: headers })
+            if (response.status === 201) {
+                window.location.reload();
+            }
         } catch (error) {
             console.log(error)
         }
@@ -123,6 +125,7 @@ function ProductView() {
             };
             const response = await axios.delete(url, { headers: headers });
             console.log('Review deleted successfully:', response.data);
+            window.location.reload();
         } catch (error) {
             console.error('Error deleting review:', error);
         }
@@ -144,16 +147,21 @@ function ProductView() {
                 <h1>{product.title}</h1>
                 <p>{product.description}</p>
             </div>
-            <hr className={styles.line}></hr>
             {
                 currentUserReview
                 ?
                 (
-                    <div className={styles.userReview}>
+                    <div key={currentUserReview.id} className={styles.review}>
                         <h5>Your Review:</h5>
-                        <p>{currentUserReview.username}</p>
-                        <p>{currentUserReview.rating}</p>
-                        <p>{currentUserReview.content}</p>
+                        <p className={styles.review_user}>{currentUserReview.username}</p>
+                        <p className={styles.review_comment}>{currentUserReview.content}</p>
+                        <div className={styles.review_rating} key={currentUserReview.rating}>
+                            <span className={currentUserReview.rating >= 5 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                            <span className={currentUserReview.rating >= 4 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                            <span className={currentUserReview.rating >= 3 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                            <span className={currentUserReview.rating >= 2 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                            <span className={currentUserReview.rating >= 1 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                        </div>
                         <button className={styles.formButton} onClick={handleDeleteReview}>Delete Review</button>
                     </div>
                 )
@@ -178,15 +186,20 @@ function ProductView() {
                     </div>
                 )
             }
-            <hr className={styles.line}></hr>
-            <div className={styles.reviw}>
+            <div>
                 <h5>Reviews:</h5>
                 {
                     reviews.map(review => (
-                        <div key={review.id}>
-                            <p>{review.username}</p>
-                            <p>{review.rating}</p>
-                            <p>{review.content}</p>
+                        <div key={review.id} className={styles.review}>
+                            <p className={styles.review_user}>{review.username}</p>
+                            <p className={styles.review_comment}>{review.content}</p>
+                            <div className={styles.review_rating} key={review.rating}>
+                                <span className={review.rating >= 5 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                                <span className={review.rating >= 4 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                                <span className={review.rating >= 3 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                                <span className={review.rating >= 2 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                                <span className={review.rating >= 1 ? `${styles.star} ${styles.filled}` : styles.star} data-rating='5'>★</span>
+                            </div>
                         </div>
                     ))
                 }
