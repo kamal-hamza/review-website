@@ -32,5 +32,4 @@ __pycache__/
 *.pyc
 *.pyo
 
-/api/migrations/
 /backend/__pycache__/
