@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './Login.module.css'
+import { Alert, Form, Button } from 'react-bootstrap';
+import { ArrowReturnLeft } from 'react-bootstrap-icons';
 
 function Login() {
+
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         email: "",
@@ -17,8 +21,37 @@ function Login() {
         variant: ""
     });
 
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        if (formData.email === "" || formData.password === "") {
+            setAlert({
+                show: true,
+                message: "Please fill out all fields.",
+                variant: "danger"
+            })
+            return
+        }
+        if (!validateEmail(formData.email)) {
+            setAlert({
+                show: true,
+                message: "Please enter a valid email.",
+                variant: "warning"
+            })
+            return
+        }
+        // if (formData.password.length < 6) {
+        //     setAlert({
+        //         show: true,
+        //         message: "Password must be at least 6 characters long.",
+        //         variant: "warning"
+        //     })
+        //     return
+        // }
         try {
             const url = 'http://127.0.0.1:8000/login/'
             const response = await axios.post(url, {
@@ -27,11 +60,13 @@ function Login() {
             });
             if (response.status === 200) {
                 localStorage.setItem('authToken', response.data.token)
+                localStorage.setItem('userID', response.data.id)
                 setAlert({
                     show: true,
-                    message: "Login Successful",
-                    variant: "danger"
+                    message: "Login Successful!",
+                    variant: "success"
                 });
+                navigate("/search");
             }
             else {
                 console.log(response.status)
@@ -42,14 +77,14 @@ function Login() {
                     setAlert({
                         show: true,
                         message: "Invalid Credentials",
-                        variant: "danger"
+                        variant: "warning"
                     });
                 }
                 else if (error.response?.status === 400) {
                     setAlert({
                         show: true,
                         message: "Bad Request. Please submit form again",
-                        variant: "info"
+                        variant: "danger"
                     });
                 }
             }
@@ -60,39 +95,33 @@ function Login() {
     }
 
     return (
-        <div className={styles.loginDiv}>
+        <div className={styles.login_div}>
             
-            <div id={styles.titleDiv}>
-                <h1 id={styles.title}>Login</h1>
+            <div className={styles.title_div}>
+                <h1 className={styles.title}>Login</h1>
             </div>
             {
                 alert.show
                 &&
                 (
-                    <div className={styles.alertDiv}>
-                        <div id={alert.variant} className={styles.alert}>
-                                <div className={styles.alertText}>
-                                    <span>{alert.message}</span>
-                                </div>
-                                <div className={styles.closeBtn}>
-                                    <span  onClick={() => setAlert({ ...alert, show: false })}>&times;</span>
-                                </div>
-                        </div> 
+                    <div className={styles.alert_div}>
+                        <Alert key={alert.variant} variant={alert.variant} dismissible onClose={(e) => {setAlert({ ...alert, show: false })}}>{alert.message}</Alert>
                     </div>
                 )
             }
-            <div id={styles.formDiv}>
-                <form onSubmit={handleSubmit}>
-                    <div className={styles.formItem}>
-                        <input type='email' placeholder='Email Address' className={styles.input} name='email' id='email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}></input>
-                    </div>
-                    <div className={styles.formItem}>
-                        <input type='password' placeholder='Password' className={styles.input} name='password' id='password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}></input>
-                    </div>
-                    <div className={styles.formItem}>
-                        <button className={styles.button} type='submit' name='submit' id='submit'>Login</button>
-                    </div>
-                </form>
+            <div className={styles.form_div}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className='mb-3' controlId='formEmail'>
+                        <Form.Control type='email' placeholder='test@example.com' className={styles.form_item} value={formData.email} onChange={(e) => {setFormData({ ...formData, email: e.target.value })}}/>
+                    </Form.Group>
+                    <Form.Group className='mb-3' controlId='formPassword'>
+                        <Form.Control type='password' placeholder='password' className={styles.form_item} value={formData.password} onChange={(e) => {setFormData({ ...formData, password: e.target.value })}} />
+                    </Form.Group>
+                    <Button type='submit' className={styles.form_button} variant='primary'>Login <ArrowReturnLeft></ArrowReturnLeft></Button>
+                </Form>
+            </div>
+            <div className={styles.link_div}>
+                <p className={styles.link_text}>Don't have an account? <Link className={styles.link} to="/signup">Signup</Link></p>
             </div>
         </div>
     );

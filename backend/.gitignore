@@ -31,3 +31,5 @@ __pycache__/
 # Compiled Python files
 *.pyc
 *.pyo
+
+/backend/__pycache__/

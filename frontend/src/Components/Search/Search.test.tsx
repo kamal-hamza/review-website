@@ -36,6 +36,7 @@ test('shows and hides alert', async () => {
     await waitFor(() => {
         expect(screen.getByText(/An error occured while fetching results/i)).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByText('×'));
+    const closeBtn = screen.getByRole('button', { name: /close/i })
+    fireEvent.click(closeBtn)
     expect(screen.queryByText(/An error occured while fetching results/i)).not.toBeInTheDocument();
 });

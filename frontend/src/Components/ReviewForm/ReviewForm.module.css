@@ -1,0 +1,55 @@
+.star {
+    color: black !important;
+    font-size: 24px;
+}
+
+.form_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_item:focus {
+    border: 1px solid #3b3b3b;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.5);
+}
+
+.radio_item {
+    display: inline-flex;
+    margin-right: 40px;
+}
+
+.radio_item > input:before {
+    border-color: black !important;
+    background-color: white !important;
+}
+
+.radio_item > input:checked {
+    border-color: black !important;
+    background-color: black !important;
+}
+
+.radio_item > label {
+    margin-left: 5px;
+}
+
+#text_area {
+    height: 80px;
+}
+
+.form_button {
+    width: 100%;
+    border: none;
+    background: #3b3b3b;
+}
+
+.form_button:hover {
+    background-color: black;
+}
+
+.form_button:active {
+    background: black !important;
+    transform: translateY(1.5px);
+}

@@ -34,7 +34,7 @@ test('submitting form calls handleSubmit function', async () => {
     renderLogin();
 
     // get the correct elements
-    const email = screen.getByPlaceholderText(/email address/i);
+    const email = screen.getByPlaceholderText(/test@example.com/i);
     const password = screen.getByPlaceholderText(/password/i);
     const button = screen.getByRole('button', {name: 'Login'});
 
@@ -59,7 +59,7 @@ test('submitting wrong form does not call handleSubmit function', async () => {
     renderLogin();
 
     // get the correct elements
-    const email = screen.getByPlaceholderText(/email address/i);
+    const email = screen.getByPlaceholderText(/test@example.com/i);
     const password = screen.getByPlaceholderText(/password/i);
     const button = screen.getByRole('button', {name: 'Login'});
 

@@ -2,7 +2,7 @@ import pytest
 from rest_framework.exceptions import ValidationError
 from api.serializers import loginSerializer, signupSerializer, productSerializer
 from django.contrib.auth import get_user_model
-from api.models import product
+from api.models import Product
 from django.contrib.auth.hashers import check_password
 
 User = get_user_model()
@@ -14,7 +14,7 @@ def test_user(db):
 
 @pytest.fixture
 def test_product(db):
-    test = product.objects.create(title='title', description='description')
+    test = Product.objects.create(title='title', description='description')
     return test
 
 class TestLoginSerializer:

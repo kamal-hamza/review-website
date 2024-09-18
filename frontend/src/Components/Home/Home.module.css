@@ -1,0 +1,52 @@
+.home_div {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.button {
+    background: #3b3b3b;
+    border: none;
+    width: 350px;
+    height: 50px;
+}
+
+.button:hover {
+    background: black !important;
+}
+
+.button:active {
+    
+    transform: translateY(1.5px);
+}
+
+.button_div {
+    padding: 7px;
+    margin: 3px;
+}
+
+.title_div {
+    margin-bottom: 50px;
+}
+
+.title {
+    font-size: 50px;
+    letter-spacing: 1px;
+}
+
+.text_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 30px;
+}
+
+.desc {
+    font-size: medium;
+    color: grey;
+}

@@ -23,20 +23,20 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 test('component renders correctly', () => {
     renderCreateProduct();
-    expect(screen.getByPlaceholderText(/title/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Description')).toBeInTheDocument();
-    expect(screen.getByText('Create')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/name/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/description/i)).toBeInTheDocument();
+    expect(screen.getByText(/submit/i)).toBeInTheDocument();
 });
 
 test('form submission is correct', async () => {
     (axios.post as jest.Mock).mockResolvedValue({ data: {} });
     renderCreateProduct();
-    fireEvent.change(screen.getByPlaceholderText(/title/i), { target: { value: 'Test Title' } });
+    fireEvent.change(screen.getByPlaceholderText(/name/i), { target: { value: 'Test Title' } });
     fireEvent.change(screen.getByPlaceholderText(/description/i), { target: { value: 'Test Description' } });
-    fireEvent.click(screen.getByText(/create/i));
+    fireEvent.click(screen.getByText(/submit/i));
     await waitFor(() => {
         expect(axios.post).toHaveBeenCalledWith(
-            'http://127.0.0.1:8000/create-product/',
+            'http://127.0.0.1:8000/products/',
             { title: 'Test Title', description: 'Test Description' },
             { headers: { 'Authorization': 'Token testToken' } },
         );

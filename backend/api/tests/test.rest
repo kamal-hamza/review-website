@@ -19,7 +19,7 @@ Content-Type: application/json
 
 POST http://127.0.0.1:8000/create-product/
 Content-Type: application/json
-Authorization: Token 44b38190ce8a477c15e5e7343c6c7f8e80cc1c3b
+Authorization: Token e9979feb6ca9e1ffb3053fb56dea1a95a64d4673
 
 { "title": "sample product", "description": "Sample Description" }
 
@@ -27,10 +27,18 @@ Authorization: Token 44b38190ce8a477c15e5e7343c6c7f8e80cc1c3b
 
 POST http://127.0.0.1:8000/create-product/
 Content-Type: application/json    
-Authorization: Token 44b38190ce8a477c15e5e7343c6c7f8e80cc1c3b
+Authorization: Token e9979feb6ca9e1ffb3053fb56dea1a95a64d4673
 
 { "title": "sample product" }
 
 ####
 
-GET http://127.0.0.1:8000/search/?search=the
+GET http://127.0.0.1:8000/search/?search=
+
+####
+
+POST http://127.0.0.1:8000/products/
+Content-Type: application/json
+Authorization: Token e9979feb6ca9e1ffb3053fb56dea1a95a64d4673
+
+{ "id": "1" }

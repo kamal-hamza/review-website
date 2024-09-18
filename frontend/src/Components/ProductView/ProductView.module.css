@@ -1,0 +1,70 @@
+.product_view_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    margin-left: 5px;
+    margin-bottom: 40px;
+}
+
+.product_title {
+    font-size: 70px;
+    text-transform: capitalize;
+}
+
+.product_description {
+    text-transform: capitalize;
+    font-size: 35px;
+    color: grey;
+    padding: 5px;
+}
+
+.modal_div {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.review_body {
+    display: flex;
+    flex-direction: row;
+}
+
+.button {
+    width: 100%;
+    border: none;
+    background: #3b3b3b;
+    margin: 10px;
+}
+
+.button:hover {
+    background-color: black;
+}
+
+.button:active {
+    background: black !important;
+    transform: translateY(1.5px);
+}
+
+.delete_review_button {
+    width: 250px;
+    margin-top: 10px;
+}
+
+.heading {
+    margin-left: 15px;
+    font-size: 35px;
+}
+
+.div_space {
+    margin-top: 125px;
+}

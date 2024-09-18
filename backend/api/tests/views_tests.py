@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.contrib.auth import get_user_model
-from api.models import product
+from api.models import Product
 from rest_framework.authtoken.models import Token
 
 User = get_user_model()
@@ -94,13 +94,14 @@ class TestCreateProduct:
 
     @pytest.mark.django_db
     def test_get_products(self, api_client):
-        url = reverse('create-product')
+        url = reverse('product-list')
+        print(url)
         response = api_client.get(url)
         assert response.status_code == status.HTTP_200_OK
         
     @pytest.mark.django_db
     def test_create_product_valid(self, api_client, token, data):
-        url = reverse('create-product')
+        url = reverse('product-list')
         headers = { 'Authorization': f'Token {token[0]}' }
         response = api_client.post(url, data, headers=headers)
         assert response.status_code == status.HTTP_201_CREATED
@@ -108,7 +109,7 @@ class TestCreateProduct:
 
     @pytest.mark.django_db
     def test_create_product_without_description(self, api_client, token):
-        url = reverse('create-product')
+        url = reverse('product-list')
         headers = { 'Authorization': f'Token {token[0]}' }
         data = {
             'title': 'testproduct',
@@ -119,13 +120,13 @@ class TestCreateProduct:
 
     @pytest.mark.django_db
     def test_create_product_without_token(self, api_client, data):
-        url = reverse('create-product')
+        url = reverse('product-list')
         response = api_client.post(url, data)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     @pytest.mark.django_db
     def test_create_product_with_invalid_token(self, api_client, data):
-        url = reverse('create-product')
+        url = reverse('product-list')
         headers = { 'Authorization': f'Token InvalidToken' }
         response = api_client.post(url, data, headers=headers)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -142,7 +143,7 @@ class TestSearch:
 
     @pytest.mark.django_db
     def test_search_with_results(self, api_client):
-        product.objects.create(title="test product", description="test description")
+        Product.objects.create(title="test product", description="test description")
         url = reverse('search')
         print(url)
         url += "?search=test"
