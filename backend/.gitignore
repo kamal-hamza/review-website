@@ -31,3 +31,6 @@ __pycache__/
 # Compiled Python files
 *.pyc
 *.pyo
+
+/api/migrations/
+/backend/__pycache__/

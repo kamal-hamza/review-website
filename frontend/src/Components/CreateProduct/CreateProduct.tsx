@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './CreateProduct.module.css'
 import axios from 'axios';
+import { Alert, Form, Button } from 'react-bootstrap';
+import { ArrowReturnLeft } from 'react-bootstrap-icons';
 
 function CreateProduct() {
 
@@ -16,6 +18,14 @@ function CreateProduct() {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        if (formData.title == "" || formData.description == "") {
+            setAlert({
+                show: true,
+                message: "Please fill ou the form",
+                variant: "warning"
+            })
+            return
+        }
         try {
             const url = "http://127.0.0.1:8000/products/";
             const token = localStorage.getItem('authToken');
@@ -40,7 +50,7 @@ function CreateProduct() {
                         setAlert({
                             show: true,
                             message: "No token was provided",
-                            variant: "info"
+                            variant: "warning"
                         })
                     }
                     else if ("invalid token" in error.response) {
@@ -54,14 +64,14 @@ function CreateProduct() {
                         setAlert({
                             show: true,
                             message: "There was an error creating the product, please try again",
-                            variant: "info",
+                            variant: "warning",
                         })
                     }
                     else {
                         setAlert({
                             show: true,
                             message: error.response.data,
-                            variant: "info",
+                            variant: "warning",
                         })
                     }
                 }
@@ -73,38 +83,29 @@ function CreateProduct() {
     }
 
     return (
-        <div className={styles.createProductDiv}>
-            <div id={styles.titleDiv}>
+        <div className={styles.createProduct_div}>
+            <div id={styles.title_div}>
                 <h1 id={styles.title}>Add Product</h1>
             </div>
             {
                 alert.show
                 &&
                 (
-                    <div className={styles.alertDiv}>
-                        <div id={alert.variant} className={styles.alert}>
-                                <div className={styles.alertText}>
-                                    <span>{alert.message}</span>
-                                </div>
-                                <div className={styles.closeBtn}>
-                                    <span  onClick={() => setAlert({ ...alert, show: false })}>&times;</span>
-                                </div>
-                        </div> 
+                    <div className={styles.alert_div}>
+                        <Alert className={styles.alert} key={alert.variant} variant={alert.variant} dismissible>{alert.message}</Alert>
                     </div>
                 )
             }
-            <div className={styles.formDiv}>
-                <form onSubmit={handleSubmit}>
-                    <div className={styles.formItem}>
-                        <input type='text' placeholder='Title' className={styles.input} name='title' id='title' value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}></input>
-                    </div>
-                    <div className={styles.formItem}>
-                        <input type='text' placeholder='Description' className={styles.input} name='description' id='description' value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}></input>
-                    </div>
-                    <div className={styles.formItem}>
-                        <button className={styles.button} type='submit' name='submit' id='submit'>Create</button>
-                    </div>
-                </form>
+            <div className={styles.form_div}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className='mb-3' controlId='formTitle'>
+                        <Form.Control type='text' placeholder='Name' className={styles.form_item} value={formData.title} onChange={(e) => {setFormData({ ...formData, title: e.target.value })}} />
+                    </Form.Group>
+                    <Form.Group className='mb-3' controlId='formDescription'>
+                        <Form.Control type='text' placeholder='Description' className={styles.form_item} value={formData.description} onChange={(e) => {setFormData({ ...formData, description: e.target.value })}} />
+                    </Form.Group>
+                    <Button type='submit' className={styles.form_button}>Submit <ArrowReturnLeft></ArrowReturnLeft></Button>
+                </Form>
             </div>
         </div>
     );

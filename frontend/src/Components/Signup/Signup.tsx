@@ -3,6 +3,8 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Signup.module.css';
+import { Form, Button, Alert } from 'react-bootstrap';
+import { ArrowReturnLeft } from 'react-bootstrap-icons';
 
 function Signup() {
 
@@ -20,8 +22,37 @@ function Signup() {
         variant: ""
     });
 
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        if (formData.email === "" || formData.username === "" || formData.password === "") {
+            setAlert({
+                show: true,
+                message: "Please fill out all fields.",
+                variant: "danger"
+            })
+            return
+        }
+        if (!validateEmail(formData.email)) {
+            setAlert({
+                show: true,
+                message: "Please enter a valid email.",
+                variant: "warning"
+            })
+            return
+        }
+        if (formData.password.length < 6) {
+            setAlert({
+                show: true,
+                message: "Password must be at least 6 characters long.",
+                variant: "warning"
+            })
+            return
+        }
         try {
             const url = 'http://127.0.0.1:8000/signup/'
             const response = await axios.post(url, {
@@ -70,44 +101,35 @@ function Signup() {
     }
 
     return (
-        <div id={styles.signupDiv}>
-            <div id={styles.titleDiv}>
-                <h1 id={styles.title}>Signup</h1>
+        <div className={styles.signup_div}>
+            <div className={styles.div_title}>
+                <h1 className={styles.title}>Signup</h1>
             </div>
             {
                 alert.show
                 &&
                 (
-                    <div className={styles.alertDiv}>
-                        <div id={alert.variant} className={styles.alert}>
-                            <div className={styles.alertText}>
-                                <span>{alert.message}</span>
-                            </div>
-                            <div className={styles.closeBtn}>
-                                <span  onClick={() => setAlert({ ...alert, show: false })}>&times;</span>
-                            </div>
-                        </div>
+                    <div className={styles.alert_div}>
+                        <Alert className={styles.alert} key={alert.variant} variant={alert.variant} dismissible onClose={(e) => setAlert({ ...alert, show: false })}>{alert.message}</Alert>
                     </div>
                 )
             }
-            <div id={styles.formDiv}>
-                <form onSubmit={handleSubmit}>
-                    <div className={styles.formItem}>
-                        <input type='email' placeholder='Email Address' className={styles.input} name='email' id='email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}></input>
-                    </div>
-                    <div className={styles.formItem}>
-                        <input type='text' placeholder='Username' className={styles.input} name='username' id='username' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })}></input>
-                    </div>
-                    <div className={styles.formItem}>
-                        <input type='password' placeholder='Password' className={styles.input} name='password' id='password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}></input>
-                    </div>
-                    <div className={styles.formItem}>
-                        <button className={styles.button} type='submit' name='submit' id='submit'>Sign Up</button>
-                    </div>
-                </form>
+            <div className={styles.form_div}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId='formEmail'>
+                        <Form.Control className={styles.form_item} type='email' placeholder="test@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                    </Form.Group>
+                    <Form.Group className='mb-3' controlId='formUser'>
+                        <Form.Control className={styles.form_item} type='text' placeholder='username' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
+                    </Form.Group>
+                    <Form.Group className='mb-3' controlId='formPassword'>
+                        <Form.Control className={styles.form_item} type='password' placeholder='password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+                    </Form.Group>
+                    <Button className={styles.form_button} variant='primary' type='submit'>Signup <ArrowReturnLeft></ArrowReturnLeft></Button>
+                </Form>
             </div>
-            <div>
-                <p>Already have an account? <Link to="/login">Login</Link></p>
+            <div className={styles.link_div}>
+                <p className={styles.link_text}>Already have an account? <Link className={styles.link} to="/login">Login</Link></p>
             </div>
         </div>
     );

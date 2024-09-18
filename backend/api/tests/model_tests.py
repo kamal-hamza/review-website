@@ -1,6 +1,6 @@
 import pytest
 from django.contrib.auth import get_user_model
-from api.models import product
+from api.models import Product
 
 User = get_user_model()
 
@@ -48,30 +48,30 @@ class TestCustomUserModel:
 class TestProductModel:
 
     def test_create_product(self):
-        test = product.objects.create(title='title', description='description')
+        test = Product.objects.create(title='title', description='description')
         assert test.title == 'title'
         assert test.description == 'description'
 
     def test_create_product_without_description(self):
-        test = product.objects.create(title='title')
+        test = Product.objects.create(title='title')
         assert test.title == 'title'
         assert test.description == 'No Description'
     
     def test_delete_product(self):
-        test = product.objects.create(title='title', description='description')
+        test = Product.objects.create(title='title', description='description')
         title = test.title
         test.delete()
-        with pytest.raises(product.DoesNotExist):
-            product.objects.get(title=title)
+        with pytest.raises(Product.DoesNotExist):
+            Product.objects.get(title=title)
     
     def filter_product_by_title(self):
-        test = product.objects.create(title='title', description='description')
-        filteredTest = product.objects.filter(title='title')
+        test = Product.objects.create(title='title', description='description')
+        filteredTest = Product.objects.filter(title='title')
         assert filteredTest is not None
         assert test == filteredTest
     
     def filter_product_by_description(self):
-        test = product.objects.create(title='title', description='description')
-        filteredTest = product.objects.filter(description='description')
+        test = Product.objects.create(title='title', description='description')
+        filteredTest = Product.objects.filter(description='description')
         assert filteredTest is not None
         assert test == filteredTest

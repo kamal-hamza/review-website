@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 # custom user model
-class customUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     
     def create_user(self, email, username, password, **kwargs):
         if not email:
@@ -35,14 +35,14 @@ class customUserManager(BaseUserManager):
         
         return self.create_user(email, username, password, **kwargs)
 
-class customUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.TextField(max_length=120)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
-    objects = customUserManager()
+    objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
 
@@ -53,7 +53,7 @@ class customUser(AbstractBaseUser, PermissionsMixin):
 
  
 # product database
-class product(models.Model):
+class Product(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(default="No Description")
 
@@ -61,10 +61,12 @@ class product(models.Model):
         return self.title
 
 # review database
-class review(models.Model):
-    user = models.ForeignKey(customUser, on_delete=models.CASCADE)
-    product = models.ForeignKey(product, on_delete=models.CASCADE)
-    content = models.TextField(default=None)
+class Review(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    title = models.CharField(max_length=120, default="title")
+    isRecommended = models.BooleanField(default=False)
+    comment = models.TextField(default=None)
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)], default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 

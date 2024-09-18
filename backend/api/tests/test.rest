@@ -33,7 +33,7 @@ Authorization: Token e9979feb6ca9e1ffb3053fb56dea1a95a64d4673
 
 ####
 
-GET http://127.0.0.1:8000/search/?search=the
+GET http://127.0.0.1:8000/search/?search=
 
 ####
 

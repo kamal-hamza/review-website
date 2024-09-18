@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import product, review
+from .models import Product, Review
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext_lazy as _
@@ -44,7 +44,7 @@ class signupSerializer(serializers.ModelSerializer):
     
 class productSerializer(serializers.ModelSerializer):
     class Meta:
-        model = product
+        model = Product
         fields = '__all__'
 
 class reviewSerializer(serializers.ModelSerializer):
@@ -52,7 +52,7 @@ class reviewSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
 
     class Meta:
-        model = review
+        model = Review
         fields = '__all__'
 
     def get_username(self, obj):

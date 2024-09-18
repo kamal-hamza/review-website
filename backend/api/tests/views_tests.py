@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.contrib.auth import get_user_model
-from api.models import product
+from api.models import Product
 from rest_framework.authtoken.models import Token
 
 User = get_user_model()
@@ -143,7 +143,7 @@ class TestSearch:
 
     @pytest.mark.django_db
     def test_search_with_results(self, api_client):
-        product.objects.create(title="test product", description="test description")
+        Product.objects.create(title="test product", description="test description")
         url = reverse('search')
         print(url)
         url += "?search=test"

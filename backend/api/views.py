@@ -7,7 +7,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from .serializers import loginSerializer, signupSerializer, productSerializer, reviewSerializer
-from .models import product, review
+from .models import Product, Review
 from django.contrib.auth import get_user_model, authenticate
 
 User = get_user_model()
@@ -63,7 +63,7 @@ class signup(APIView):
             
 class ProductViewSet(viewsets.ModelViewSet):
 
-    queryset = product.objects.all()
+    queryset = Product.objects.all()
     serializer_class = productSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -96,14 +96,19 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response({'success': 'Product deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({'error': f'An error occurred: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
 class search(ListAPIView):
 
-    queryset = product.objects.all()
+    queryset = Product.objects.all()
     serializer_class = productSerializer
     filter_backends = [SearchFilter]
     search_fields = ['title']
 
     def list(self, request, *args, **kwargs):
+        search_param = request.query_params.get('search', None)
+        if search_param == "":
+            return Response(status=status.HTTP_204_NO_CONTENT)
         queryset = self.filter_queryset(self.get_queryset())
         if not queryset.exists():
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -115,6 +120,7 @@ class search(ListAPIView):
         
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class getProduct(APIView):
 
@@ -128,8 +134,8 @@ class getProduct(APIView):
             if token is not None:
                 user_token = Token.objects.get(key=token)
                 current_user = user_token.user
-                products = product.objects.get(id=id)
-                reviews = review.objects.filter(product=products.id)
+                products = Product.objects.get(id=id)
+                reviews = Review.objects.filter(product=products.id)
                 product_serializer = productSerializer(products)
                 review_serializer = reviewSerializer(reviews, many=True)
                 print(review_serializer.data)
@@ -140,7 +146,7 @@ class getProduct(APIView):
             return Response({ 'error': e }, status=status.HTTP_400_BAD_REQUEST)
         
 class ReviewViewSet(viewsets.ModelViewSet):
-    queryset = review.objects.all()
+    queryset = Review.objects.all()
     serializer_class = reviewSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -158,6 +164,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
             except Token.DoesNotExist:
                 return Response({'error': 'No token provided'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
+                print(e)
                 return Response({'error': f'An error occurred: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

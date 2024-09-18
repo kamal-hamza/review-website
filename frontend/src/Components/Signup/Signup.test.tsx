@@ -35,10 +35,10 @@ test('submitting form calls handleSubmit function', async () => {
     renderSignup();
 
     // get the correct elements
-    const email = screen.getByPlaceholderText(/email address/i);
+    const email = screen.getByPlaceholderText(/test@example.com/i);
     const username = screen.getByPlaceholderText(/username/i);
     const password = screen.getByPlaceholderText(/password/i);
-    const button = screen.getByRole('button', {name: 'Sign Up'});
+    const button = screen.getByRole('button', {name: 'Signup'});
 
     // clear value fields
     await userEvent.clear(email);
@@ -64,10 +64,10 @@ test('submitting wrong form does not call handleSubmit function', async () => {
     renderSignup();
 
     // get the correct elements
-    const email = screen.getByPlaceholderText(/email address/i);
+    const email = screen.getByPlaceholderText(/test@example.com/i);
     const username = screen.getByPlaceholderText(/username/i);
     const password = screen.getByPlaceholderText(/password/i);
-    const button = screen.getByRole('button', {name: 'Sign Up'});
+    const button = screen.getByRole('button', {name: 'Signup'});
 
     // clear value fields
     await userEvent.clear(email);
